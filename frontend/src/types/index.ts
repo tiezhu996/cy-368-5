@@ -22,6 +22,17 @@ export interface OperationRecord {
   priority: string;
 }
 
+export interface BatchUpdateRequest {
+  keys: string[];
+  status?: string;
+  owner?: string;
+}
+
+export interface BatchUpdateResponse {
+  updated: number;
+  overview: OverviewResponse;
+}
+
 export interface OverviewResponse {
   appName: string;
   appCode: string;

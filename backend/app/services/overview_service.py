@@ -1,3 +1,11 @@
+from typing import List, Optional
+from pydantic import BaseModel
+
+class BatchUpdateRequest(BaseModel):
+    keys: List[str]
+    status: Optional[str] = None
+    owner: Optional[str] = None
+
 OVERVIEW = {
   "appName": "真人CS野战预约系统",
   "appCode": "ldairsoftcs",
@@ -111,3 +119,14 @@ OVERVIEW = {
 
 def get_overview():
     return OVERVIEW
+
+def batch_update_records(request: BatchUpdateRequest):
+    updated_count = 0
+    for record in OVERVIEW["records"]:
+        if record["key"] in request.keys:
+            if request.status is not None:
+                record["status"] = request.status
+            if request.owner is not None:
+                record["owner"] = request.owner
+            updated_count += 1
+    return {"updated": updated_count, "overview": OVERVIEW}
